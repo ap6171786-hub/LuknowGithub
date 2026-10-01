@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: insight-engine
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:////app/data/insight_engine.db
+      - key: INSIGHT_API_KEY
+        sync: false
+      - key: MAX_UPLOAD_SIZE_MB
+        value: "25"

@@ -17,6 +17,9 @@ from app.db.database import Base, get_db
 def test_dataset_upload_train_predict_and_delete(monkeypatch) -> None:
     """Exercise dataset persistence and the model lifecycle over the HTTP API."""
     monkeypatch.setenv("INSIGHT_API_KEY", "test-api-key-that-is-at-least-32-chars")
+    openapi = app.openapi()
+    assert "ApiKeyAuth" in openapi["components"]["securitySchemes"]
+    assert openapi["paths"]["/datasets"]["get"]["security"] == [{"ApiKeyAuth": []}]
     engine = create_engine(
         "sqlite://",
         connect_args={"check_same_thread": False},

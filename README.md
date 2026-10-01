@@ -83,6 +83,15 @@ docker compose up --build
 
 Common development commands are available in the `Makefile`: `make install`, `make run-api`, `make run-ui`, `make test`, and `make clean`.
 
+## Public demo on Render
+
+1. Push the repository to GitHub and connect it in Render.
+2. In Render, choose **New > Blueprint**, select the branch containing `render.yaml`, review the service, and deploy it.
+3. Render prompts for `INSIGHT_API_KEY`. Generate a fresh value with the command above and enter it into Render.
+4. Open the deployed `onrender.com` URL and sign in with that same key. The API is available under `/api/` and interactive docs at `/api/docs`.
+
+The Blueprint uses Render's **Free** web-service plan to avoid creating billable compute or storage resources. Free instances can sleep when idle, and their filesystem is ephemeral: uploaded files, SQLite history, and model artifacts can disappear on sleep, restart, or redeploy. Use only disposable demo data; durable hosting requires paid persistent storage or an external database/object store. GitHub Actions checks the Docker image build and Compose configuration.
+
 ## Screenshots
 
 Screenshots are not bundled yet; run the UI locally to explore the Profile, Train, and What-If Simulator pages.

@@ -5,13 +5,20 @@ from __future__ import annotations
 import secrets
 from typing import Annotated
 
-from fastapi import Header, HTTPException, status
+from fastapi import HTTPException, Security, status
+from fastapi.security import APIKeyHeader
 
 from app.utils.auth import configured_api_key
 
+API_KEY_HEADER = APIKeyHeader(
+    name="X-API-Key",
+    scheme_name="ApiKeyAuth",
+    auto_error=False,
+)
+
 
 async def require_api_key(
-    api_key: Annotated[str | None, Header(alias="X-API-Key")] = None,
+    api_key: Annotated[str | None, Security(API_KEY_HEADER)],
 ) -> None:
     """Require the configured shared API key on protected endpoints."""
     expected = configured_api_key()
