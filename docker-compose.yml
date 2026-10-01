@@ -1,0 +1,26 @@
+services:
+  api:
+    build: .
+    command: python -m uvicorn app.api.server:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: sqlite:///./data/insight_engine.db
+      INSIGHT_API_KEY: ${INSIGHT_API_KEY:?Set INSIGHT_API_KEY in your .env file}
+      MAX_UPLOAD_SIZE_MB: ${MAX_UPLOAD_SIZE_MB:-25}
+    volumes:
+      - ./data:/app/data
+
+  ui:
+    build: .
+    command: python -m streamlit run app/main.py --server.address 0.0.0.0 --server.port 8501
+    ports:
+      - "8501:8501"
+    environment:
+      DATABASE_URL: sqlite:///./data/insight_engine.db
+      INSIGHT_API_KEY: ${INSIGHT_API_KEY:?Set INSIGHT_API_KEY in your .env file}
+      MAX_UPLOAD_SIZE_MB: ${MAX_UPLOAD_SIZE_MB:-25}
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - api

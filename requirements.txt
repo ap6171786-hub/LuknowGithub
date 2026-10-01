@@ -1,0 +1,18 @@
+streamlit==1.64.0  # Interactive data exploration frontend
+pandas==2.3.3  # Tabular data loading and manipulation
+numpy==2.4.6  # Numerical arrays and computations
+fastapi==0.142.2  # HTTP API framework
+uvicorn[standard]==0.54.0  # ASGI server for the FastAPI backend
+sqlalchemy==2.1.1  # ORM and SQLite database access
+pydantic==2.13.5  # Data validation and API schemas
+scikit-learn==1.9.1  # Machine learning pipelines and evaluation
+plotly==7.1.0  # Interactive charts and visualizations
+python-multipart==0.0.32  # Multipart file uploads for FastAPI
+python-dotenv==1.2.4  # Load local environment configuration
+pytest==8.4.2  # Test runner
+httpx==0.28.1  # HTTP client and FastAPI test transport
+openpyxl==3.1.5  # Excel workbook reader and test fixture writer
+pyarrow==25.0.1  # Parquet file reader and writer
+reportlab==4.4.10  # Generate downloadable PDF data reports
+xlrd==2.0.2  # Read legacy XLS workbooks
+pyxlsb==1.0.10  # Read binary XLSB workbooks
