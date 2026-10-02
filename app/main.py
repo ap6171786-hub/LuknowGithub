@@ -532,21 +532,43 @@ def _train_page() -> None:
 
 
 def _predict_page() -> None:
-    """Generate predictions from a previously saved local model run."""
+    """Generate predictions from a session-trained or saved model."""
     st.title("Predict")
     runs = _load_model_runs()
-    if not runs:
+    training_result = st.session_state.get("current_training_result")
+    if not runs and training_result is None:
         st.info("Train a model first.")
         return
-    labels = {f"#{run.id} · {run.algorithm} · target {run.target_column}": run for run in runs}
-    selection = st.selectbox("Trained model", list(labels))
-    run = labels[selection]
-    dataframe = _dataframe_for_run(run)
-    if dataframe is None:
-        st.error("The source dataset for this model is unavailable.")
-        return
-    feature_columns = run.metrics_json.get("feature_columns", [])
-    model = _load_cached_model(run.model_path)
+    labels: dict[str, ModelRun | TrainingResult] = {}
+    if training_result is not None:
+        labels[
+            f"Current session · {training_result.algorithm} · "
+            f"target {training_result.target_column}"
+        ] = training_result
+    labels.update(
+        {
+            f"#{run.id} · {run.algorithm} · target {run.target_column}": run
+            for run in runs
+        }
+    )
+    selection = st.selectbox("Trained model", list(labels), key="predict_model")
+    selected_model = labels[selection]
+    if isinstance(selected_model, TrainingResult):
+        dataframe = st.session_state.get("current_dataset")
+        if dataframe is None:
+            st.error("The dataset for this session-trained model is unavailable.")
+            return
+        feature_columns = selected_model.feature_columns
+        model = selected_model.pipeline
+        st.caption("Using the model trained in this browser session.")
+    else:
+        run = selected_model
+        dataframe = _dataframe_for_run(run)
+        if dataframe is None:
+            st.error("The source dataset for this model is unavailable.")
+            return
+        feature_columns = run.metrics_json.get("feature_columns", [])
+        model = _load_cached_model(run.model_path)
     values = _feature_form(dataframe, feature_columns, key_prefix="predict")
     if st.button("Predict", type="primary"):
         try:
