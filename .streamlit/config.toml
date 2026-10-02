@@ -9,4 +9,9 @@ font = "sans serif"
 [server]
 headless = true
 maxUploadSize = 25
-enableCORS = false
+corsAllowedOrigins = [
+    "https://insight-engine-dkve.onrender.com",
+    "http://localhost:8501",
+    "http://localhost:10000",
+    "http://127.0.0.1:8501",
+]

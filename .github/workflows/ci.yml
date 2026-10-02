@@ -70,4 +70,4 @@ jobs:
           status=$(curl --silent --output /dev/null --write-out "%{http_code}" \
             http://localhost:10000/api/datasets)
           test "$status" = "401"
-          python -c 'import websocket; connection = websocket.create_connection("ws://localhost:10000/_stcore/stream", origin="http://localhost:10000", timeout=10); connection.close()'
+          python -c 'import http.client; connection = http.client.HTTPConnection("localhost", 10000, timeout=10); connection.putrequest("GET", "/_stcore/stream"); connection.putheader("Connection", "Upgrade"); connection.putheader("Upgrade", "websocket"); connection.putheader("Sec-WebSocket-Version", "13"); connection.putheader("Sec-WebSocket-Key", "dGhlIHNhbXBsZSBub25jZQ=="); connection.putheader("Origin", "http://localhost:10000"); connection.endheaders(); response = connection.getresponse(); assert response.status == 101, f"WebSocket handshake returned HTTP {response.status}"; connection.close()'
