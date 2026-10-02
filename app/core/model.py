@@ -145,9 +145,7 @@ class AutoMLPipeline:
             if AutoMLPipeline._is_datetime_column(features[column])
         ]
         datetime.extend(datetime_text)
-        categorical = [
-            column for column in remaining if column not in datetime_text
-        ] + boolean
+        categorical = [column for column in remaining if column not in datetime_text]
 
         transformers: list[tuple[str, Any, list[str]]] = []
         if numeric:

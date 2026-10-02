@@ -28,6 +28,7 @@ def test_build_preprocessor_handles_numeric_categorical_and_datetime() -> None:
         {
             "amount": [1.0, None, 3.0],
             "kind": ["a", None, "b"],
+            "active": [True, False, True],
             "created": pd.to_datetime(["2025-01-01", None, "2025-01-03"]),
             "target": [1, 2, 3],
         }
