@@ -10,11 +10,13 @@
 ## Features
 
 - Import and validate CSV, Excel, JSON, and Parquet datasets.
-- Automatic data profiling with type-specific statistics, correlations, quality scoring, and HTML/PDF exports.
-- Non-destructive cleaning suggestions and before/after previews.
-- Cross-validated AutoML for classification and regression with selectable algorithms.
-- Model metrics, feature importance, confusion matrix, ROC curve, residual and prediction diagnostics.
-- Interactive prediction forms and a What-If Simulator with baseline deltas and feature sensitivity.
+- Clear upload previews with row/column summaries, detected types, missing values, and validation checks.
+- Detailed per-column profiling with type-specific statistics, correlations, quality scoring, and JSON/HTML/PDF exports.
+- Data-aware cleaning choices with per-column missing-value strategies and before/after previews; original data is unchanged until applied.
+- Cross-validated AutoML with guided target/task selection, algorithm comparison, and identifier-column exclusions.
+- Explained model metrics, class-level mistakes or largest regression errors, and optional comparison against known outcomes.
+- Flexible numeric inputs in prediction and What-If flows, including values outside the training-data range.
+- Predictions and saved model runs are matched to the active dataset to avoid showing stale results from a previous upload.
 - FastAPI endpoints for datasets, model training, and predictions.
 - Shared-secret sign-in for the UI and API-key authentication for protected API routes.
 - Configurable upload size limit (25 MiB by default).
